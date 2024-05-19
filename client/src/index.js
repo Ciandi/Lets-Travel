@@ -1,10 +1,16 @@
+// index.js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App'; // Import your root component
+import { LoggedInUserProvider } from './contexts/LoggedInUserContext'; 
+import { GlobalStyle } from './styles';
+import App from './App';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <LoggedInUserProvider> 
+      <GlobalStyle />
+      <App />
+    </LoggedInUserProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

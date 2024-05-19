@@ -1,47 +1,23 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  max-width: 300px;
-  margin: auto;
-`;
-
-const Input = styled.input`
-  margin-bottom: 10px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-`;
-
-const Button = styled.button`
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-`;
+import { Container, ContentContainer, Title, Form, Input, Button, Error, Success } from './styles';
 
 const RegisterForm = ({ onSubmit }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [registered, setRegistered] = useState(false); // Track registration success
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
-  
+
     setError('');
-  
+
     try {
       const response = await fetch('/addUser', {
         method: 'POST',
@@ -50,25 +26,50 @@ const RegisterForm = ({ onSubmit }) => {
         },
         body: JSON.stringify({ username, password, confirmPassword }),
       });
-  
+
       if (!response.ok) {
         const responseData = await response.json();
-        throw new Error(responseData.message || 'Registration failed');
+        setError(responseData.message || 'Registration failed');
+        return; // Added to stop further execution
       }
+
+      // Set registration success state
+      setRegistered(true);
       console.log('Registration successful');
     } catch (error) {
-      setError(error.message);
+      setError('An error occurred. Please try again.'); // Fallback error message
     }
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-      <Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <Input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-      <Button type="submit">Register</Button>
-      {error && <div>{error}</div>}
-    </Form>
+    <Container>
+      <ContentContainer>
+        <Title>Register</Title>
+        <Form onSubmit={handleSubmit}>
+          <Input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          <Button type="submit">Register</Button>
+          {error && <Error>{error}</Error>}
+          {registered && <Success>Registration successful!</Success>}
+        </Form>
+      </ContentContainer>
+    </Container>
   );
 };
 
