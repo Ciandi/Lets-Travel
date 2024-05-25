@@ -1,11 +1,9 @@
-// index.js
-
 const express = require('express');
 const morgan = require('morgan');
+const usersHandler = require('./handlers/users');
 
 const app = express();
 const PORT = process.env.PORT || 5000; // Set your desired port
-const usersHandler = require('./handlers/users')
 
 // Middleware
 app.use(morgan('tiny')); // Logging middleware
@@ -17,9 +15,16 @@ app.get('/', (req, res) => {
 });
 
 // User Endpoints
-app.get("/getUsers", usersHandler.getUsers);
+app.get('/getUsers', usersHandler.getUsers);
 app.post('/loginUser', usersHandler.loginUser);
-app.post('/addUser', usersHandler.addUser); // Add this line for the registration endpoint
+app.post('/addUser', usersHandler.addUser);
+app.post('/changePassword', usersHandler.changePassword); 
+app.post('/deleteUser', usersHandler.deleteUser);
+
+
+// Favorite Endpoints
+app.post('/addFavorite', usersHandler.addFavorite);
+app.get('/getFavorites/:username', usersHandler.getFavorites);
 
 // Start the server
 app.listen(PORT, () => {

@@ -12,8 +12,8 @@ export const ContentContainer = styled.div`
   max-width: 400px;
   padding: 20px;
   text-align: center;
-  border: 2px solid #ccc; /* Add border properties */
-  border-radius: 8px; /* Add border radius for rounded corners */
+  border: 2px solid #ccc; 
+  border-radius: 8px; 
 `;
 
 export const Title = styled.h1`
@@ -57,10 +57,10 @@ export const Button = styled.button`
 
 export const Error = styled.div`
   color: red;
-  margin-top: 10px; /* Add margin top for separation from other elements */
+  margin-top: 10px;
 `;
 
 export const Success = styled.div`
   color: green;
-  margin-top: 10px; /* Add margin top for separation from other elements */
+  margin-top: 10px; 
 `;

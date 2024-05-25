@@ -1,9 +1,16 @@
 import React, { useContext } from 'react';
 import { Nav, NavLink } from './styles';
 import { LoggedInUserContext } from '../../contexts/LoggedInUserContext';
+import { useNavigate } from 'react-router-dom';
 
 const NavigationBar = () => {
   const { loggedInUser, logOut } = useContext(LoggedInUserContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logOut();
+    navigate('/');
+  };
 
   return (
     <Nav>
@@ -14,7 +21,9 @@ const NavigationBar = () => {
         {loggedInUser ? (
           <>
             <span style={{ marginRight: '10px' }}>Welcome, {loggedInUser.username}</span>
-            <button onClick={logOut}>Logout</button>
+            <NavLink to="/profile" style={{ marginRight: '10px' }}>Profile</NavLink>
+            <NavLink to="/favorites" style={{ marginRight: '10px' }}>Favorites</NavLink>
+            <NavLink to="/" onClick={handleLogout}>Logout</NavLink>
           </>
         ) : (
           <>
