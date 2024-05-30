@@ -52,6 +52,11 @@ Before you begin, ensure you have met the following requirements:
 
 ![image](https://github.com/Ciandi/Lets-Travel/assets/147100886/2b5d89f7-e10c-40a7-92c8-70e7757d0a3d)
 
+"FAVORITE SECTION CAN BE ADDED FROM HOTELCARDS"
+
+
+![image](https://github.com/Ciandi/Lets-Travel/assets/147100886/85d2f002-5f63-4caf-abfd-857e9f4ba9ad)
+
 
 "PROFILE CHANGE OR DELETE ACCOUNT"
 
