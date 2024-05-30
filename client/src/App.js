@@ -39,7 +39,7 @@ const HomePage = () => {
           {loggedInUser ? (
             <>
               <Route path="/" element={<Hotels />} />
-              <Route path="/favorites" element={<Favorites />} />
+              <Route path="/favorites" element={<Favorites username={loggedInUser.username} />} />
               <Route path="/profile" element={<Profile />} />  
               <Route path="/profile/changepassword" element={<ChangePassword />} /> 
             </>
@@ -55,7 +55,7 @@ const HomePage = () => {
       </div>
       <Wrapper>
         <Footer>
-          <p>Terms of Service | Privacy Policy</p>
+      
         </Footer>
       </Wrapper>
     </Router>

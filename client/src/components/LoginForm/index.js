@@ -17,8 +17,9 @@ const LoginForm = () => {
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { logIn } = useContext(LoggedInUserContext); // Access logIn function from context
+  const { logIn } = useContext(LoggedInUserContext); 
 
+  //request to login a user
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("fetching");

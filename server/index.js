@@ -21,9 +21,9 @@ app.post('/addUser', usersHandler.addUser);
 app.post('/changePassword', usersHandler.changePassword); 
 app.post('/deleteUser', usersHandler.deleteUser);
 
-
 // Favorite Endpoints
 app.post('/addFavorite', usersHandler.addFavorite);
+app.post('/deleteFavorite', usersHandler.deleteFavorite); 
 app.get('/getFavorites/:username', usersHandler.getFavorites);
 
 // Start the server

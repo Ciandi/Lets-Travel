@@ -8,14 +8,17 @@ const Profile = () => {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
+  //if no users, display this
   if (!loggedInUser) {
     return <Container><p>You need to log in to view this page.</p></Container>;
   }
 
+  //navigate differnet route if change password
   const goToChangePassword = () => {
     navigate('/profile/changepassword');
   };
 
+  //delete account request from backend
   const handleDeleteAccount = async () => {
     try {
       const response = await fetch('/deleteUser', {

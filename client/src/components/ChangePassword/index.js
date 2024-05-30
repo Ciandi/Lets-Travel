@@ -8,6 +8,7 @@ const ChangePassword = () => {
     const [newPassword, setNewPassword] = useState('');
     const [message, setMessage] = useState('');
   
+    // Call backend changepassword request
     const handleChangePassword = async (e) => {
       e.preventDefault();
   

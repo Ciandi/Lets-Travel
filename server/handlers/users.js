@@ -9,6 +9,7 @@ const options = {
 
 const client = new MongoClient(MONGO_URI, options);
 
+// Endpoint to get all users
 const getUsers = async (req, res) => {
   try {
     await client.connect();
@@ -24,6 +25,8 @@ const getUsers = async (req, res) => {
   }
 };
 
+
+// Endpoint to log in a user
 const loginUser = async (req, res) => {
   const { username, password } = req.body;
 
@@ -49,6 +52,7 @@ const loginUser = async (req, res) => {
   }
 };
 
+// Endpoint to add a new user
 const addUser = async (req, res) => {
   const { username, password, confirmPassword } = req.body;
 
@@ -76,6 +80,8 @@ const addUser = async (req, res) => {
   }
 };
 
+
+// Endpoint to change a user password
 const changePassword = async (req, res) => {
   const { username, currentPassword, newPassword } = req.body;
 
@@ -105,6 +111,8 @@ const changePassword = async (req, res) => {
   }
 };
 
+
+// Endpoint to delete a user account
 const deleteUser = async (req, res) => {
   const { username } = req.body;
 
@@ -126,8 +134,10 @@ const deleteUser = async (req, res) => {
   }
 };
 
+
+// Endpoint to add the api data to favorite
 const addFavorite = async (req, res) => {
-  const { username, hotelId } = req.body;
+  const { username, hotel } = req.body; 
 
   try {
     await client.connect();
@@ -138,12 +148,10 @@ const addFavorite = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    await db
-      .collection("users")
-      .updateOne(
-        { username },
-        { $addToSet: { bookmarks: { hotel_id: hotelId } } }
-      );
+    await db.collection("users").updateOne(
+      { username },
+      { $addToSet: { bookmarks: hotel } }
+    );
 
     res.status(200).json({ message: "Hotel added to favorites" });
   } catch (error) {
@@ -154,6 +162,8 @@ const addFavorite = async (req, res) => {
   }
 };
 
+
+// Endpoint to get and display the user favorites
 const getFavorites = async (req, res) => {
   const { username } = req.params;
 
@@ -166,16 +176,42 @@ const getFavorites = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const hotelIds = user.bookmarks.map((bookmark) => bookmark.hotel_id);
+    const { bookmarks } = user;
+    if (!bookmarks || bookmarks.length === 0) {
+      return res.status(200).json({ message: "User has no bookmarks" });
+    }
 
-    const hotels = await db
-      .collection("hotels")
-      .find({ _id: { $in: hotelIds } })
-      .toArray();
-
-    res.status(200).json({ status: 200, favorites: hotels });
+    res.status(200).json({ status: 200, favorites: bookmarks });
   } catch (error) {
     console.error("Error fetching favorites:", error);
+    res.status(500).json({ error: "Internal server error" });
+  } finally {
+    await client.close();
+  }
+};
+
+
+// Endpoint to delete the favorite
+const deleteFavorite = async (req, res) => {
+  const { username, hotelId } = req.body;
+
+  try {
+    await client.connect();
+    const db = client.db("travel");
+
+    const user = await db.collection("users").findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await db.collection("users").updateOne(
+      { username },
+      { $pull: { bookmarks: { hotel_id: hotelId } } }
+    );
+
+    res.status(200).json({ message: "Hotel removed from favorites" });
+  } catch (error) {
+    console.error("Error removing favorite:", error);
     res.status(500).json({ error: "Internal server error" });
   } finally {
     await client.close();
@@ -190,4 +226,5 @@ module.exports = {
   deleteUser,
   addFavorite,
   getFavorites,
+  deleteFavorite,
 };
