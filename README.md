@@ -25,7 +25,7 @@ This will not only display nearby hotels but also display the cheapest flight th
 - Navigation routes Login and Sign up when user is not logged in 
 - Home page only accessible when logged in 
 
-### Prerequisites
+### Installation
 
 Before you begin, ensure you have met the following requirements:
 
@@ -36,7 +36,10 @@ Before you begin, ensure you have met the following requirements:
 ### Screenshots
 
 "HOME PAGE"
+
 ![image](https://github.com/Ciandi/Lets-Travel/assets/147100886/1092da0d-616a-4a21-9a06-5dade2d8ef18)
+
+
 
 "LOGGED IN PAGE AND LOGGED IN USER"
 
